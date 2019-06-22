@@ -4,12 +4,22 @@ const { buildFederatedSchema } = require("@apollo/federation");
 const typeDefs = gql`
   extend type Query {
     me: User
+    test(id: ID): User
   }
 
   type User @key(fields: "id") {
     id: ID!
     name: String
     username: String
+    shippingAddress: Address
+  }
+
+  type Address {
+    addressLine1: String
+    addressLine2: String
+    suburb: String
+    postCode: String
+    state: String
   }
 `;
 
@@ -17,6 +27,10 @@ const resolvers = {
   Query: {
     me() {
       return users[0];
+    },
+    test(_, input) {
+      const x = users.filter(user => user.id === input.id)
+      return x[0]
     }
   },
   User: {
@@ -42,9 +56,16 @@ server.listen({ port: 4001 }).then(({ url }) => {
 const users = [
   {
     id: "1",
-    name: "Ada Lovelace",
-    birthDate: "1815-12-10",
-    username: "@ada"
+    name: "Christopher Wade",
+    birthDate: "10/05/1990",
+    username: "@christopherxc",
+    shippingAddress: {
+      addressLine1: "15 Lasseter street",
+      addressLine2:  "",
+      suburb: "Kedron",
+      postCode: "4031",
+      state: "QLD"
+    }
   },
   {
     id: "2",
