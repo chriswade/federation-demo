@@ -15,6 +15,7 @@ const typeDefs = gql`
   }
 
   type Address {
+    id: String!
     addressLine1: String
     addressLine2: String
     suburb: String
@@ -60,6 +61,7 @@ const users = [
     birthDate: "10/05/1990",
     username: "@christopherxc",
     shippingAddress: {
+      id: "123",
       addressLine1: "15 Lasseter street",
       addressLine2:  "",
       suburb: "Kedron",
