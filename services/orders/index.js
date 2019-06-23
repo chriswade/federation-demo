@@ -6,7 +6,7 @@ const typeDefs = gql`
         orderById(id: ID): Order
     }
 
-		type Order @key(fields: "id") {
+		type Order @key(fields: "id orderNumber") {
         id: ID!
         orderNumber: String
         orderDate: String
@@ -24,7 +24,7 @@ const resolvers = {
 		orderById(_, args) {
 			const x = orders.filter(order => order.id === args.id)
 			return x[0]
-		}
+		} 
 	}
 }
 

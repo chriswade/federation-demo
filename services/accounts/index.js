@@ -4,7 +4,7 @@ const { buildFederatedSchema } = require("@apollo/federation");
 const typeDefs = gql`
   extend type Query {
     me: User
-    test(id: ID): User
+    getUserById(id: ID): User
   }
 
   type User @key(fields: "id") {
@@ -12,6 +12,11 @@ const typeDefs = gql`
     name: String
     username: String
     shippingAddress: Address
+  }
+
+  extend type Order @key(fields: id) {
+    id: ID! @external
+    orderNumber: String @external
   }
 
   type Address {
@@ -29,8 +34,9 @@ const resolvers = {
     me() {
       return users[0];
     },
-    test(_, input) {
+    getUserById(_, input) {
       const x = users.filter(user => user.id === input.id)
+      console.log(x[0])
       return x[0]
     }
   },
@@ -61,7 +67,7 @@ const users = [
     birthDate: "10/05/1990",
     username: "@christopherxc",
     shippingAddress: {
-      id: "123",
+      id: "1",
       addressLine1: "15 Lasseter street",
       addressLine2:  "",
       suburb: "Kedron",
